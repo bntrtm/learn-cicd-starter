@@ -21,6 +21,12 @@ jobs:
       - name: Check Formatting
         run: test -z $(go fmt ./...)
 
+      - name: Install staticcheck
+        run: go install honnef.co/go/tools/cmd/staticcheck@latest
+
+      - name: Lint with Staticcheck
+        run: staticcheck ./...
+
   tests:
     name: Tests
     runs-on: ubuntu-latest
