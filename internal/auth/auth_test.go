@@ -1,36 +1,36 @@
 package auth_test
 
 import (
-	"testing"
 	"net/http"
-	
+	"testing"
+
 	"github.com/bootdotdev/learn-cicd-starter/internal/auth"
 )
 
 func Test_GetAPIKey(t *testing.T) {
 	type test struct {
-		input		func(req *http.Request)
-		expects		string // error output
+		input   func(req *http.Request)
+		expects string // error output
 	}
 	cases := []test{
 		{
-			input:	func(req *http.Request) { req.Header.Set("Authorization", "ApiKey HEREISAKEY123")},
+			input:   func(req *http.Request) { req.Header.Set("Authorization", "ApiKey HEREISAKEY123") },
 			expects: "",
 		},
 		{
-			input:	func(req *http.Request) { req.Header.Set("Authorizashun", "ApiKey HEREISAKEY123")},
+			input:   func(req *http.Request) { req.Header.Set("Authorizashun", "ApiKey HEREISAKEY123") },
 			expects: "no authorization header included",
 		},
 		{
-			input:	func(req *http.Request) { req.Header.Set("Authorization", "ApiKey")},
+			input:   func(req *http.Request) { req.Header.Set("Authorization", "ApiKey") },
 			expects: "malformed authorization header",
 		},
 		{
-			input:	func(req *http.Request) { req.Header.Set("Authorization", "")},
-			expects:	"no authorization header included",
+			input:   func(req *http.Request) { req.Header.Set("Authorization", "") },
+			expects: "no authorization header included",
 		},
 		{
-			input:	func(req *http.Request) { req.Header.Set("FakeHeader", "NoValue")},
+			input:   func(req *http.Request) { req.Header.Set("FakeHeader", "NoValue") },
 			expects: "no authorization header included",
 		},
 	}
