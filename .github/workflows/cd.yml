@@ -18,3 +18,22 @@ jobs:
 
       - name: Build app
         run: ./scripts/buildprod.sh
+
+  gcloud:
+    name: Set up Gcloud
+    runs-on: ubuntu-latest
+
+    steps:
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v3'
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+
+    - name: Build and push
+      run: gcloud builds submit --tag us-central1-docker.pkg.dev/<NOTELY-PROJECT-NAME>/<REPO-NAME>/notely:${{ github.ref_name }} .
